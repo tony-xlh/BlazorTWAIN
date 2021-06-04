@@ -18,7 +18,6 @@
     {
         await CreateDWT();
         isDesktop = await JS.InvokeAsync<Boolean>("isDesktop");
-        await JS.InvokeVoidAsync("alert", isDesktop);
         StateHasChanged();
     }
 
