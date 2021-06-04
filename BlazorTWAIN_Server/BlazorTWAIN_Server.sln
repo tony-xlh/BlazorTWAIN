@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30907.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTWAIN_Server", "BlazorTWAIN_Server.csproj", "{A43C3945-8A56-41EA-9C60-2DBA4C53EC24}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A43C3945-8A56-41EA-9C60-2DBA4C53EC24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A43C3945-8A56-41EA-9C60-2DBA4C53EC24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A43C3945-8A56-41EA-9C60-2DBA4C53EC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A43C3945-8A56-41EA-9C60-2DBA4C53EC24}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17668083-51B5-4824-A9EF-7B4EF693A011}
+	EndGlobalSection
+EndGlobal
