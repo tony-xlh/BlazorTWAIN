@@ -1,0 +1,43 @@
+﻿@inject IJSRuntime JS
+@page "/scanner"
+
+<h1>Scanner</h1>
+
+@if (isDesktop)
+{
+<button class="btn btn-primary" @onclick="Scan">Scan</button>}
+<button class="btn btn-primary" @onclick="LoadImage">Load Image</button>
+<button class="btn btn-primary" @onclick="Save">Save</button>
+
+<div id="dwtcontrolContainer"></div>
+
+@code{ 
+    private Boolean isDesktop;
+    private DWT dwt;
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            dwt = await DWT.CreateAsync(JS);
+            isDesktop = await dwt.IsDesktop();
+            StateHasChanged();
+            await dwt.CreateDWT();
+        }
+    }
+
+    private async Task Scan()
+    {
+        await dwt.Scan();
+    }
+
+    private async Task LoadImage()
+    {
+        await dwt.LoadImage();
+    }
+
+    public async Task Save()
+    {
+        await dwt.Save();
+    }
+}

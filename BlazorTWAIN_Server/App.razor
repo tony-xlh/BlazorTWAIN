@@ -1,43 +1,10 @@
-﻿@inject IJSRuntime JS
-<LayoutView Layout="@typeof(MainLayout)">
-    <h1>Scanner</h1>
-
-    @if (isDesktop)
-    {
-        <button class="btn btn-primary" @onclick="Scan">Scan</button>
-    }
-    <button class="btn btn-primary" @onclick="LoadImage">Load Image</button>
-    <button class="btn btn-primary" @onclick="Save">Save</button>
-
-    <div id="dwtcontrolContainer"></div>
-</LayoutView>
-
-@code{
-    private Boolean isDesktop;
-    protected override async void OnInitialized()
-    {
-        await CreateDWT();
-        isDesktop = await JS.InvokeAsync<Boolean>("isDesktop");
-        StateHasChanged();
-    }
-
-    private async Task CreateDWT()
-    {
-        await JS.InvokeVoidAsync("CreateDWT");
-    }
-
-    private async Task Scan()
-    {
-        await JS.InvokeVoidAsync("Scan");
-    }
-
-    private async Task LoadImage()
-    {
-        await JS.InvokeVoidAsync("LoadImage");
-    }
-
-    private async Task Save()
-    {
-        await JS.InvokeVoidAsync("Save");
-    }
-}
+<Router AppAssembly="@typeof(Program).Assembly" PreferExactMatches="@true">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            <p>Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
