@@ -76,7 +76,6 @@ export function isDesktop() {
 function asyncSuccessFunc(result) {
     var length = result.getLength();
     var base64 = result.getData(0, length);
-    console.log(base64);
     console.log(dotNetHelper);
     console.log("call .net");        
     dotNetHelper.invokeMethodAsync('BlazorTWAIN_Server', 'RetrieveBase64', base64);

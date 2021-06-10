@@ -36,7 +36,7 @@ else
 
 @code {
     string imageDataUri;
-    TextResult[] barcodeResults;
+    List<TextResult> barcodeResults;
     Boolean loading;
 
     async Task LoadImage(InputFileChangeEventArgs e)
@@ -56,7 +56,7 @@ else
         // Display Data as data:uri
         imageDataUri = $"data:image/jpeg;base64,{Convert.ToBase64String(fileBytes)}";
 
-        barcodeResults = await ResultService.GetBarcodeResultAsync(Navigator.BaseUri.ToString(), fileBytes, e.File.Name);
+        barcodeResults = ResultService.GetBarcodeResult(Convert.ToBase64String(fileBytes));
         loading = false;
     }
 

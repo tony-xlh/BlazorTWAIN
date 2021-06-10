@@ -40,7 +40,7 @@ else
     private Boolean decoding;
     private Boolean isDesktop;
     private DWT dwt;
-    private TextResult[] barcodeResults;
+    private List<TextResult> barcodeResults;
 
     protected override async void OnAfterRender(bool firstRender)
     {
@@ -74,15 +74,14 @@ else
         await dwt.GetBase64OfSelected(Decode);
     }
 
-    private async void Decode(string data)
+    private void Decode(string data)
     {
-        await ReadBarcodes(data);
+        ReadBarcodes(data);
     }
 
-    private async Task ReadBarcodes(string base64)
+    private void ReadBarcodes(string base64)
     {
-        byte[] bytes = Convert.FromBase64String(base64);
-        barcodeResults = await ResultService.GetBarcodeResultAsync(Navigator.BaseUri.ToString(), bytes, "sample.jpg");
+        barcodeResults = ResultService.GetBarcodeResult(base64);
         decoding = false;
         StateHasChanged();
     }
