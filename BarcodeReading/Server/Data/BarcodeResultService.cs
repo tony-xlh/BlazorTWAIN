@@ -11,9 +11,12 @@ namespace BlazorTWAIN_Server.Data
 {
     public class BarcodeResultService
     {
+        private BarcodeReader reader;
+        public BarcodeResultService() {
+            reader = new BarcodeReader("t0069fQAAAAM656kb3qDzrc9Yf4UYDqMekf2RajobBUxz7AB6+lUHifyq/jKD47/HS94EHH6F2prBZqFlU0W4rq4r1feL3j92");
+        }
         public List<TextResult> GetBarcodeResult(string base64)
-        {
-            BarcodeReader reader = new BarcodeReader("t0069fQAAAAM656kb3qDzrc9Yf4UYDqMekf2RajobBUxz7AB6+lUHifyq/jKD47/HS94EHH6F2prBZqFlU0W4rq4r1feL3j92");
+        {            
             Dynamsoft.TextResult[] results = reader.DecodeBase64String(base64, "");
             return ConvertedResult(results);
         }
