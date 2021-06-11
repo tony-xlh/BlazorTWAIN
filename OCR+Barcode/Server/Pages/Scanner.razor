@@ -1,0 +1,164 @@
+﻿@inject IJSRuntime JS
+@inject NavigationManager Navigator
+@inject HttpClient Http
+@inject BarcodeResultService BarcodeResultService
+@inject OCRResultService OCRResultService
+@using BlazorTWAIN_Server.Data
+@page "/scanner"
+
+<h1>Scanner</h1>
+
+<div class="scanner" style="float:left;margin-right:20px;">
+    @if (isDesktop)
+    {
+        <button class="btn btn-primary" @onclick="Scan">Scan</button>
+    }
+    <button class="btn btn-primary" @onclick="LoadImage">Load Image</button>
+    <button class="btn btn-primary" @onclick="Save">Save</button>
+    <div id="dwtcontrolContainer"></div>
+    <p>Operations for the selected one:</p>
+    <button class="btn btn-primary" @onclick="ReadBarcodesOfSelected">Read Barcodes (Server-Side)</button>
+    <button class="btn btn-primary" @onclick="OCRSelected">OCR (Server-Side)</button>
+    <br />
+    <button class="btn btn-primary" @onclick="ReadBarcodesOfSelected_Client">Read Barcodes (Client-Side)</button>
+
+</div>
+<div class="result" style="float:left;">
+    @if (decoding)
+    {
+        <p><em>Decoding...</em></p>
+    }
+    else
+    {
+        @if (@barcodeResults is not null)
+        {
+            <label>Barcode Results:</label>
+            <ol class="list-group">
+                @foreach (TextResult result in @barcodeResults)
+                {
+                    <li class="list-group-item">@result.text</li>
+                }
+            </ol>
+            <hr>
+        }
+    }
+
+
+    @if (OCRing)
+    {
+        <p><em>OCRing...</em></p>
+    }
+    else
+    {
+        @if (OCRResults is not null)
+        {
+            <label>OCR Results:</label>
+            <ol class="list-group">
+                @foreach (TextResult result in OCRResults)
+                {
+                    <li class="list-group-item">@result.text</li>
+                }
+            </ol>
+        }
+    }
+</div>
+
+@code{
+    private Boolean decoding;
+    private Boolean OCRing;
+    private Boolean isDesktop;
+    private DWT dwt;
+    private List<TextResult> barcodeResults = new List<TextResult>();
+    private List<TextResult> OCRResults;
+
+    protected override async void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            dwt = await DWT.CreateAsync(JS);
+            isDesktop = await dwt.IsDesktop();
+            StateHasChanged();
+            await dwt.CreateDWT();
+        }
+    }
+
+    private async Task Scan()
+    {
+        await dwt.Scan();
+    }
+
+    private async Task LoadImage()
+    {
+        await dwt.LoadImage();
+    }
+
+    private async Task Save()
+    {
+        await dwt.Save();
+    }
+
+    #region server_side barcode
+    private async Task ReadBarcodesOfSelected()
+    {
+        decoding = true;
+        await dwt.GetBase64OfSelected(Decode);
+    }
+
+    private void Decode(string data)
+    {
+        ReadBarcodes(data);
+    }
+
+    private void ReadBarcodes(string base64)
+    {
+        barcodeResults = BarcodeResultService.GetBarcodeResult(base64);
+        decoding = false;
+        StateHasChanged();
+    }
+    #endregion
+
+    #region server_side ocr
+    private async Task OCRSelected()
+    {
+        OCRing = true;
+        await dwt.GetBase64OfSelected(OCR);
+    }
+
+    private async void OCR(string data)
+    {
+        OCRResults = await OCRResultService.GetOCRResultAsync(data);
+        OCRing = false;
+        StateHasChanged();
+    }
+    #endregion
+
+    #region client_side barcode
+    private async Task ReadBarcodesOfSelected_Client()
+    {
+        decoding = true;
+        int imageIndex = await dwt.CurrentImageIndexInBuffer();
+        await dwt.ReadBarcodes(updateBarcodeResults, imageIndex);
+    }
+
+    private void updateBarcodeResults(TextResult[] textResults)
+    {
+        barcodeResults.Clear();
+        foreach (TextResult tr in textResults)
+        {
+            barcodeResults.Add(tr);
+        }
+        decoding = false;
+        StateHasChanged();
+    }
+    #endregion
+
+    #region client_side ocr
+    private async Task OCROfSelected_Client()
+    {
+        OCRing = true;
+        int imageIndex = await dwt.CurrentImageIndexInBuffer();
+        await dwt.ReadBarcodes(updateBarcodeResults, imageIndex);
+    }
+    
+    #endregion
+}
