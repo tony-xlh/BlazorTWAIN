@@ -1,28 +1,25 @@
 ﻿var DWObject = null;
+Dynamsoft.DWT.AutoLoad = false;
+Dynamsoft.DWT.ResourcesPath = "https://unpkg.com/dwt@18.0.0/dist";
+//Dynamsoft.DWT.ProductKey = "your license key";
 
 export function CreateDWT() {
     var height = 580;
     var width = 500;
-
+    
     if (Dynamsoft.Lib.env.bMobile) {
         height = 350;
         width = 270;
     }
 
-    Dynamsoft.DWT.CreateDWTObjectEx({
-        WebTwainId: 'dwtcontrol'
-    },
-        function (obj) {
-            DWObject = obj;
-            DWObject.Viewer.bind(document.getElementById('dwtcontrolContainer'));
-            DWObject.Viewer.height = height;
-            DWObject.Viewer.width = width;
-            DWObject.Viewer.show();
-        },
-        function (err) {
-            console.log(err);
-        }
-    );
+    Dynamsoft.DWT.Containers = [{ ContainerId: 'dwtcontrolContainer', Width: width, Height: height }];
+    Dynamsoft.DWT.RegisterEvent('OnWebTwainReady', function () {
+        DWObject = Dynamsoft.DWT.GetWebTwain('dwtcontrolContainer');
+        DWObject.Viewer.height = height;
+        DWObject.Viewer.width = width;
+    });
+
+    Dynamsoft.DWT.Load();
 }
 
 export function Scan() {
