@@ -16,3 +16,9 @@ Additional steps to run the projects.
 
 [How to Build a Web Document Scanner with Blazor](https://www.dynamsoft.com/codepool/web-document-scanner-with-blazor.html)
 
+## Blazor in a Desktop App
+
+There is also a demo running Dynamic Web TWAIN in a WinForms desktop app using BlazorWebView: [Combine Blazor and WinForms to Build a Document Scanning Desktop App](https://www.dynamsoft.com/codepool/blazor-webview-winforms-document-scanner.html)
+
+
+
