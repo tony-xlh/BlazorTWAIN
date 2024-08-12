@@ -12,6 +12,10 @@ Additional steps to run the projects.
 2. Modify `dynamsoft.webtwain.config.js` in the `Resources` folder. Set up `ProductKey` and change `Dynamsoft.DWT.AutoLoad` to false as we want to load DWT manually. You can apply for a free trial license key [here](https://www.dynamsoft.com/customer/license/trialLicense/?product=dwt).
 3. (optional) You may need to install Windows 10 SDK if you want to use the [windows.media.ocr](https://docs.microsoft.com/en-us/uwp/api/Windows.Media.Ocr.OcrEngine?view=winrt-20348) API. Visit [here](https://docs.microsoft.com/en-us/windows/apps/desktop/modernize/desktop-to-uwp-enhance) to learn more about using Windows Runtime API in .Net applications.
 
+## .NET 8 Version
+
+You can find the updated .NET 8 version using Blazor Web App [here](https://github.com/tony-xlh/BlazorTWAIN/tree/main/Basic/.NET%208). It uses the library via CDN so you do not need to put the resources folder into it.
+
 ## Blog
 
 [How to Build a Web Document Scanner with Blazor](https://www.dynamsoft.com/codepool/web-document-scanner-with-blazor.html)
